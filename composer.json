@@ -1,0 +1,11 @@
+{
+    "name": "gepeng/laravel-rbac",
+    "description": "A RBAC api for laravel 6",
+    "authors": [
+        {
+            "name": "gepeng",
+            "email": "gepeng@nantian.com.cn"
+        }
+    ],
+    "require": {}
+}
