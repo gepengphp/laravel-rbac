@@ -7,5 +7,6 @@
             "email": "gepeng@nantian.com.cn"
         }
     ],
+    "license": "MIT",
     "require": {}
 }
