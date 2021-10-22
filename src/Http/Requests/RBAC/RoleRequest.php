@@ -1,12 +1,11 @@
 <?php
 
-namespace GepengPHP\LaravelRBAC\Http\Requests\RABC;
+namespace GepengPHP\LaravelRBAC\Http\Requests\RBAC;
 
-//use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\BaseRequest;
+use GepengPHP\LaravelRBAC\Http\Requests\BaseRequest;
 use Illuminate\Validation\Rule;
 
-class PermissionRequest extends BaseRequest
+class RoleRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class PermissionRequest extends BaseRequest
      */
     public function rules()
     {
-        $rule = Rule::unique('rbac_permissions');
+        $rule = Rule::unique('rbac_roles');
         $id = request()->route('id', null);
         $id && $rule = $rule->ignore($id);
 
@@ -39,6 +38,8 @@ class PermissionRequest extends BaseRequest
                 $rule,
                 'between:1,50',
             ],
+            'permission_ids' => 'required|array',
+            'permission_ids.*' => 'required|int|exists:rbac_permissions,id',
         ];
     }
 }

@@ -13,7 +13,7 @@ class LaravelRBACServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/config/laravel-rbac.php', 'laravel-rbac');
     }
 
     /**
@@ -23,6 +23,11 @@ class LaravelRBACServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 发布
+        $this->publishes([
+            __DIR__.'/config/laravel-rbac.php' => config_path('laravel-rbac.php'),
+        ]);
+        
         // route
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
 

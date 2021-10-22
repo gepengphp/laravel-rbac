@@ -5,7 +5,7 @@ namespace GepengPHP\LaravelRBAC\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GepengPHP\LaravelRBAC\Models\RBAC\Permission;
-use GepengPHP\LaravelRBAC\Http\Requests\RABC\PermissionRequest;
+use GepengPHP\LaravelRBAC\Http\Requests\RBAC\PermissionRequest;
 
 class PermissionController extends Controller
 {
@@ -31,7 +31,6 @@ class PermissionController extends Controller
     {
         $permission = new Permission($request->post());
         $permission->save();
-
         return response()->success(\compact('permission'));
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-$prefix = config('laravel-rbac.routes.api_prefix', 'api/');
+$prefix = config('laravel-rbac.routes.api_prefix', 'api');
 
 Route::group(
     [
