@@ -147,8 +147,6 @@ class LaravelRBACServiceProvider extends ServiceProvider
             $this->publishes([__DIR__.'/config/laravel-rbac.php' => config_path('laravel-rbac.php')]);
             // 数据库表
             $this->publishes([__DIR__.'/databases/migrations' => database_path('migrations')], 'laravel-rbac-migrations');
-            // 数据填充
-            //$this->call('db:seed', ['--class' => \GepnegPHP\LaravelRBAC\database\AdminTablesSeeder::class]);
         }
     }
 }

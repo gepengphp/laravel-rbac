@@ -19,7 +19,6 @@ class TablesSeeder extends Seeder
     public function run()
     {
         // create a user.
-        User::truncate();
         User::create([
             'email' => 'admin',
             'password' => bcrypt('admin'),

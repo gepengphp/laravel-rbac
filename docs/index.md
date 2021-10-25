@@ -3,9 +3,7 @@
 基于 laravel 6.x Auth 实现的 rbac 接口。
 
 ### 环境要求
-php 7.2 +
-
-laravel 6.x
+`php 7.2 +` `laravel 6.x`
 
 ### 安装
 
@@ -13,6 +11,26 @@ laravel 6.x
 
   ```sh
   composer require gepeng/laravel-rbac
+  ```
+
+- 编辑 `config/app.config`，添加服务提供者 `GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class`
+
+  ```php
+  return [
+
+      ...
+
+      'providers' => [
+
+          ...
+
+          // Laravel RBAC
+          GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class,
+      ],
+
+      ...
+
+  ];
   ```
 
 - 发布
@@ -36,26 +54,6 @@ laravel 6.x
           
       ...
   }
-  ```
-
-- 编辑 `config/app.config`，添加服务提供者 `GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class`
-
-  ```php
-  return [
-
-      ...
-
-      'providers' => [
-
-          ...
-
-          // Laravel RBAC
-          GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class,
-      ],
-
-      ...
-
-  ];
   ```
 
 - 迁移数据库文件
