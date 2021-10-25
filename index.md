@@ -1,37 +1,103 @@
-## Welcome to GitHub Pages
+## Laravel RBAC
 
-You can use the [editor on GitHub](https://github.com/gepengphp/laravel-rbac/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+基于 laravel 6.x Auth 实现的 rbac 接口。
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### 环境要求
+php 7.2 +
+laravel 6.x
 
-### Markdown
+### 安装
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+1. 安装 composer 扩展
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```sh
+composer require gepeng/laravel-rbac
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+2. 发布
 
-### Jekyll Themes
+此命令完成以下操作：
+- 在 `config` 目录中生成名为 `laravel-rbac.php` 的配置文件。
+- 在 `databases/migrations` 目录中创建数据库迁移文件。
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gepengphp/laravel-rbac/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```sh
+php artisan vendor:publish --provider="GepengPHP\LaravelRBAC\LaravelRBACServiceProvider"
+```
 
-### Support or Contact
+3. 编辑 `app/User.php` 用户模型文件，添加 trait 类扩展方法 `\GepengPHP\LaravelRBAC\Traits\ModelUser`
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```php
+class User extends Authenticatable implements JWTSubject
+{
+    // 扩展用户角色、权限等关联方法
+    use Notifiable,
+        \GepengPHP\LaravelRBAC\Traits\ModelUser;
+        
+    ...
+}
+```
+
+4. 编辑 `config/app.config`，添加服务提供者 `GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class`
+
+```php
+return [
+
+    ...
+
+    'providers' => [
+
+        ...
+
+        // Laravel RBAC
+        GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class,
+    ],
+
+    ...
+
+];
+```
+
+5. 迁移数据库文件
+
+```sh
+# 迁移数据库表结构
+> php artisan migrate
+
+# 创建填充数据
+> php artisan db:seed --class="GepengPHP\LaravelRBAC\Seeds\TablesSeeder"
+```
+
+### 配置文件说明
+
+- `routes`
+  - `api_prefix` RBAC 接口访问前缀，默认值 “api”。根据路由结构自行修改
+  - `auth_middleware` Laravel 鉴权中间件，默认 “jwt.auth”。
+- `requests`
+  - `base_request` 请求对象基类，默认值 “null”，根据路由结构自行修改
+- `response`
+  - `macro_success` 处理【成功】消息的 Response 宏，默认 null，类型：闭包函数，例：
+    ```php
+    function (array $data = [], int $code = 200, string $msg = 'success') {
+        return response()->json([ 'code' => $code, 'msg' => $msg ]);
+    }
+    ```
+  - `macro_success` 处理【失败】消息的 Response 宏，默认 null，类型：闭包函数，例：
+    ```php
+    function (int $code, string $msg, array $data = []) {
+        return response()->json([ 'code' => $code, 'msg' => $msg, 'data' => $data ]);
+    }
+    ```
+
+### 接口文档
+
+- 权限
+  - 详情
+  - 全部列表
+  - 分页列表
+  - 创建
+  - 修改
+  - 删除
+- 角色
+- 用户
+- 菜单
+
