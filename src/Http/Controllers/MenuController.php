@@ -17,25 +17,25 @@ class MenuController extends Controller
     public function tree()
     {
         $tree = Menu::with('children')->where('parent_id', 0)->orderBy('order')->get();
-        return response()->success(\compact('tree'));
+        return response()->RBACSuccess(\compact('tree'));
     }
 
     public function reorder(Request $request)
     {
         Menu::seveOrder($request->post());
-        return response()->success();
+        return response()->RBACSuccess();
     }
 
     public function index(Request $request)
     {
         $pager = Menu::with('roles')->with('permission')->paginate($request->post('per_page', 10));
-        return response()->success($pager->toArray());
+        return response()->RBACSuccess($pager->toArray());
     }
 
     public function info(int $id)
     {
         $menu = Menu::with('roles')->with('permission')->findOrFail($id);
-        return response()->success(\compact('menu'));
+        return response()->RBACSuccess(\compact('menu'));
     }
 
     public function store(MenuRequest $request)
@@ -47,7 +47,7 @@ class MenuController extends Controller
         });
         $menu->roles;
         $menu->setRelation('permission', Permission::where('slug', $menu->permission)->first());
-        return response()->success(\compact('menu'));
+        return response()->RBACSuccess(\compact('menu'));
     }
     
     public function save(int $id, MenuRequest $request)
@@ -59,7 +59,7 @@ class MenuController extends Controller
         });
         $menu->roles;
         $menu->setRelation('permission', Permission::where('slug', $menu->permission)->first());
-        return response()->success(\compact('menu'));
+        return response()->RBACSuccess(\compact('menu'));
     }
 
     public function destory(int $id)
@@ -71,7 +71,7 @@ class MenuController extends Controller
                 $menu->roles()->detach();
             });
         }
-        return response()->success();
+        return response()->RBACSuccess();
     }
 
     public function authMenu()
@@ -84,6 +84,6 @@ class MenuController extends Controller
 
         $menu = \rbac_menu_create($tree->toArray(), $permissions->pluck('slug')->toArray());
 
-        return response()->success(\compact('menu'));
+        return response()->RBACSuccess(\compact('menu'));
     }
 }

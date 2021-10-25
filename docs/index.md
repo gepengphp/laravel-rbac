@@ -1,5 +1,7 @@
 ## Laravel RBAC
 
+> 全是bug
+
 基于 laravel 6.x Auth 实现的 rbac 接口。
 
 ### 环境要求

@@ -12,13 +12,13 @@ class PermissionController extends Controller
     public function all()
     {
         $list = Permission::get()->toArray();
-        return response()->success(\compact('list'));
+        return response()->RBACSuccess(\compact('list'));
     }
 
     public function index(Request $request)
     {
         $pager = Permission::paginate($request->post('per_page', 10));
-        return response()->success($pager->toArray());
+        return response()->RBACSuccess($pager->toArray());
     }
 
     public function info(int $id)
@@ -31,20 +31,20 @@ class PermissionController extends Controller
     {
         $permission = new Permission($request->post());
         $permission->save();
-        return response()->success(\compact('permission'));
+        return response()->RBACSuccess(\compact('permission'));
     }
 
     public function save(int $id, PermissionRequest $request)
     {
         $permission = Permission::findOrFail($id);
         $permission->update($request->post());
-        return response()->success(\compact('permission'));
+        return response()->RBACSuccess(\compact('permission'));
     }
 
     public function destory(int $id)
     {
         $permission = Permission::find($id);
         $permission && $permission->delete();
-        return response()->success();
+        return response()->RBACSuccess();
     }
 }

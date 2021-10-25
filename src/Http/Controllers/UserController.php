@@ -15,13 +15,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $pager = User::with('roles')->with('permissions')->paginate($request->post('per_page', 10));
-        return response()->success($pager->toArray());
+        return response()->RBACSuccess($pager->toArray());
     }
 
     public function info(int $id)
     {
         $user = User::with('roles')->with('permissions')->findOrFail($id);
-        return response()->success(\compact('user'));
+        return response()->RBACSuccess(\compact('user'));
     }
 
     public function store(UserRequest $request)
@@ -35,7 +35,7 @@ class UserController extends Controller
         });
         $user->permissions;
         $user->roles;
-        return response()->success(\compact('user'));
+        return response()->RBACSuccess(\compact('user'));
     }
 
     public function save(int $id, UserRequest $request)
@@ -48,7 +48,7 @@ class UserController extends Controller
         });
         $user->setRelation('permissions', $user->permissions);
         $user->setRelation('roles', $user->roles);
-        return response()->success(\compact('user'));
+        return response()->RBACSuccess(\compact('user'));
     }
 
     public function destory(int $id)
@@ -61,6 +61,6 @@ class UserController extends Controller
                 $user->roles()->detach();
             });
         }
-        return response()->success();
+        return response()->RBACSuccess();
     }
 }

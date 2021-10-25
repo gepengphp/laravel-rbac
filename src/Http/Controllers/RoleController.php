@@ -15,19 +15,19 @@ class RoleController extends Controller
     public function all(Request $request)
     {
         $list = Role::get()->toArray();
-        return response()->success(\compact('list'));
+        return response()->RBACSuccess(\compact('list'));
     }
 
     public function index(Request $request)
     {
         $pager = Role::paginate($request->post('per_page', 10));
-        return response()->success($pager->toArray());
+        return response()->RBACSuccess($pager->toArray());
     }
 
     public function info(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-        return response()->success(\compact('role'));
+        return response()->RBACSuccess(\compact('role'));
     }
 
     public function store(RoleRequest $request)
@@ -38,7 +38,7 @@ class RoleController extends Controller
             $role->permissions()->sync((array) $request->post('permission_ids'));
         });
         $role->permissions;
-        return response()->success(\compact('role'));
+        return response()->RBACSuccess(\compact('role'));
     }
 
     public function save(int $id, RoleRequest $request)
@@ -49,7 +49,7 @@ class RoleController extends Controller
             $role->permissions()->sync((array) $request->post('permission_ids'));
             $role->permissions;
         });
-        return response()->success(\compact('role'));
+        return response()->RBACSuccess(\compact('role'));
     }
 
     public function destory(int $id)
@@ -61,6 +61,6 @@ class RoleController extends Controller
                 $role->permissions()->detach();
             });
         }
-        return response()->success();
+        return response()->RBACSuccess();
     }
 }

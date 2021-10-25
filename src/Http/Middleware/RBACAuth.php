@@ -34,8 +34,10 @@ class RBACAuth
         if ($permissions->first(function ($permission) use ($request) {
             return $permission->shouldPassThrough($request);
         })) {
-            return response()->fail(403, false, '没有权限');
+            return response()->RBACfail(403, false, '没有权限');
         }
+
+        // todo 中间件 权限验证没有改完
         dd($permissions);
         return $next($request);
     }
