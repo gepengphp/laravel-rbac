@@ -4,4 +4,4 @@
 
 数据库、接口等，参照 `laravel-admin` 实现，只有接口。
 
-## [文档](./docs/index.md)
+## [文档](https://gepengphp.github.io/laravel-rbac/)
