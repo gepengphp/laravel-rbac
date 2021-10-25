@@ -9,66 +9,66 @@ laravel 6.x
 
 ### 安装
 
-1. 安装 composer 扩展
+- 安装 composer 扩展
 
-```sh
-composer require gepeng/laravel-rbac
-```
+  ```sh
+  composer require gepeng/laravel-rbac
+  ```
 
-2. 发布
+- 发布
 
-此命令完成以下操作：
-- 在 `config` 目录中生成名为 `laravel-rbac.php` 的配置文件。
-- 在 `databases/migrations` 目录中创建数据库迁移文件。
+  此命令完成以下操作：
+  - 在 `config` 目录中生成名为 `laravel-rbac.php` 的配置文件。
+  - 在 `databases/migrations` 目录中创建数据库迁移文件。
 
-```sh
-php artisan vendor:publish --provider="GepengPHP\LaravelRBAC\LaravelRBACServiceProvider"
-```
+  ```sh
+  php artisan vendor:publish --provider="GepengPHP\LaravelRBAC\LaravelRBACServiceProvider"
+  ```
 
-3. 编辑 `app/User.php` 用户模型文件，添加 trait 类扩展方法 `\GepengPHP\LaravelRBAC\Traits\ModelUser`
+- 编辑 `app/User.php` 用户模型文件，添加 trait 类扩展方法 `\GepengPHP\LaravelRBAC\Traits\ModelUser`
 
-```php
-class User extends Authenticatable implements JWTSubject
-{
-    // 扩展用户角色、权限等关联方法
-    use Notifiable,
-        \GepengPHP\LaravelRBAC\Traits\ModelUser;
-        
-    ...
-}
-```
+  ```php
+  class User extends Authenticatable implements JWTSubject
+  {
+      // 扩展用户角色、权限等关联方法
+      use Notifiable,
+          \GepengPHP\LaravelRBAC\Traits\ModelUser;
+          
+      ...
+  }
+  ```
 
-4. 编辑 `config/app.config`，添加服务提供者 `GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class`
+- 编辑 `config/app.config`，添加服务提供者 `GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class`
 
-```php
-return [
+  ```php
+  return [
 
-    ...
+      ...
 
-    'providers' => [
+      'providers' => [
 
-        ...
+          ...
 
-        // Laravel RBAC
-        GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class,
-    ],
+          // Laravel RBAC
+          GepengPHP\LaravelRBAC\LaravelRBACServiceProvider::class,
+      ],
 
-    ...
+      ...
 
-];
-```
+  ];
+  ```
 
-5. 迁移数据库文件
+- 迁移数据库文件
 
-```sh
-# 迁移数据库表结构
-> php artisan migrate
+  ```sh
+  # 迁移数据库表结构
+  > php artisan migrate
 
-# 创建填充数据
-> php artisan db:seed --class="GepengPHP\LaravelRBAC\Seeds\TablesSeeder"
-```
+  # 创建填充数据
+  > php artisan db:seed --class="GepengPHP\LaravelRBAC\Seeds\TablesSeeder"
+  ```
 
-### 配置文件说明
+### 配置文件配置项说明
 
 - `routes`
   - `api_prefix` RBAC 接口访问前缀，默认值 “api”。根据路由结构自行修改
@@ -90,14 +90,4 @@ return [
     ```
 
 ### 接口文档
-
-- 权限
-  - 详情
-  - 全部列表
-  - 分页列表
-  - 创建
-  - 修改
-  - 删除
-- 角色
-- 用户
-- 菜单
+[文档](./api.md)
