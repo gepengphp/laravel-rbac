@@ -12,6 +12,8 @@ class Role extends Model
     protected $fillable = [
         'name', 'slug',
     ];
+    
+    protected $hidden = ['pivot'];
 
     public function permissions()
     {

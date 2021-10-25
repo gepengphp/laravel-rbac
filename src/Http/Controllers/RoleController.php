@@ -24,7 +24,7 @@ class RoleController extends Controller
         return response()->success($pager->toArray());
     }
 
-    public function view(int $id)
+    public function info(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
         return response()->success(\compact('role'));
@@ -36,8 +36,8 @@ class RoleController extends Controller
         DB::transaction(function () use ($role, $request) {
             $role->save();
             $role->permissions()->sync((array) $request->post('permission_ids'));
-            $role->permissions;
         });
+        $role->permissions;
         return response()->success(\compact('role'));
     }
 

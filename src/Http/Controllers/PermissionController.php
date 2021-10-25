@@ -21,10 +21,10 @@ class PermissionController extends Controller
         return response()->success($pager->toArray());
     }
 
-    public function view(int $id)
+    public function info(int $id)
     {
         $permission = Permission::findOrFail($id);
-        return response()->success(\compact('permission'));
+        return response()->RBACSuccess(\compact('permission'));
     }
 
     public function store(PermissionRequest $request)

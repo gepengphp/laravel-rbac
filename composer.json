@@ -8,8 +8,13 @@
         }
     ],
     "license": "MIT",
-    "require": {},
+    "require": {
+        "php": ">=7.2"
+    },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "GepengPHP\\LaravelRBAC\\": "src/"
         }

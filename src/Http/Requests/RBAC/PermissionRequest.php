@@ -2,8 +2,9 @@
 
 namespace GepengPHP\LaravelRBAC\Http\Requests\RBAC;
 
-use GepengPHP\LaravelRBAC\Http\Requests\BaseRequest;
 use Illuminate\Validation\Rule;
+use GepengPHP\LaravelRBAC\Http\Requests\BaseRequest;
+use GepengPHP\LaravelRBAC\Models\RBAC\Permission;
 
 class PermissionRequest extends BaseRequest
 {
@@ -38,6 +39,7 @@ class PermissionRequest extends BaseRequest
                 $rule,
                 'between:1,50',
             ],
+            'http_method' => 'array_in_array:' . implode(',', Permission::HTTP_METHODS),
         ];
     }
 }
