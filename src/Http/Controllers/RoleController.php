@@ -20,7 +20,7 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-        $pager = Role::paginate($request->post('per_page', 10));
+        $pager = Role::with('permissions')->paginate($request->post('per_page', 10));
         return response()->RBACSuccess($pager->toArray());
     }
 

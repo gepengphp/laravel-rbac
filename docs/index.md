@@ -90,4 +90,11 @@
     ```
 
 ### 接口文档
-[文档](./api.md)
+
+采用 `restful` 规范。
+
+
+- [权限](./api/permission.md)
+- [角色](./api/role.md)
+- [用户](./api/user.md)
+- [菜单](./api/menu.md)

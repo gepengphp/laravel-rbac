@@ -14,13 +14,17 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $pager = User::with('roles')->with('permissions')->paginate($request->post('per_page', 10));
+        \DB::connection()->enableQueryLog();
+        $pager = User::with('roles')->with('permissions')
+            ->filter($request->filled('filter.keyword'), 'name', 'LIKE', "%{$request->input('filter.keyword')}%")
+            ->filter($request->filled('filter.department_id'), 'department_id', $request->input('filter.department_id'))
+            ->paginate($request->post('per_page', 10));
         return response()->RBACSuccess($pager->toArray());
     }
 
     public function info(int $id)
     {
-        $user = User::with('roles')->with('permissions')->findOrFail($id);
+        $user = User::with('department')->with('roles')->with('permissions')->findOrFail($id);
         return response()->RBACSuccess(\compact('user'));
     }
 
@@ -42,7 +46,13 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         DB::transaction(function () use ($user, $request) {
-            $user->update(array_merge($request->post(), ['password' => bcrypt($request->password)]));
+            $data = $request->post();
+            if (!empty($data['password'])) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
+            }
+            $user->update($data);
             $user->permissions()->sync((array) $request->post('permission_ids'));
             $user->roles()->sync((array) $request->post('role_ids'));
         });

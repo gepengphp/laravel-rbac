@@ -26,7 +26,7 @@ class UserRequest extends BaseRequest
         return [
             'name'             => 'required|max:255',
             'email'            => 'required|max:255|unique:users,email,' . request()->route('id', null),
-            'password'         => 'required|between:6,64',
+            'password'         => 'between:6,64',
             'role_ids'         => 'array',
             'role_ids.*'       => 'int|exists:rbac_roles,id',
             'permission_ids'   => 'array',

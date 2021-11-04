@@ -35,10 +35,9 @@ class Permission extends Model
         return $this->morphMany(Menu::class, 'permissible', null, 'slug', 'permission');
     }
 
-    // todo bug 指定 setAttribute 后不更新这个字段
     public function setHttpMethodAttribute(array $httpMethods)
     {
-        return \implode(',', $httpMethods);
+        $this->attributes['http_method'] = \implode(',', $httpMethods);
     }
 
     public function getHttpMethodAttribute(?string $httpMethod): array

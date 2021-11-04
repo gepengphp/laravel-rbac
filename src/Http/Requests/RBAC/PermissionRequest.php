@@ -30,16 +30,16 @@ class PermissionRequest extends BaseRequest
         $id && $rule = $rule->ignore($id);
 
         return [
-            'name' => [
-                'required',
-                'between:0,50',
-            ],
-            'slug' => [
-                'required',
-                $rule,
-                'between:1,50',
-            ],
+            'name' => 'required|between:0,50',
+            'slug' => 'required|between:1,50|unique:rbac_permissions,slug,' . $id,
             'http_method' => 'array_in_array:' . implode(',', Permission::HTTP_METHODS),
         ];
     }
+
+    // public function messages()
+    // {
+    //     return [
+    //         'http_method.array_in_array' => 'HTTP 方法错误'
+    //     ];
+    // }
 }

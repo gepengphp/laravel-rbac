@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GepengPHP\LaravelRBAC\Models\RBAC\Permission;
 use GepengPHP\LaravelRBAC\Http\Requests\RBAC\PermissionRequest;
+use DB;
 
 class PermissionController extends Controller
 {
