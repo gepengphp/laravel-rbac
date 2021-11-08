@@ -11,6 +11,7 @@ use GepengPHP\LaravelRBAC\Http\Requests\RBAC\MenuRequest;
 use GepengPHP\LaravelRBAC\Models\RBAC\Menu;
 use GepengPHP\LaravelRBAC\Models\RBAC\Role;
 use GepengPHP\LaravelRBAC\Models\RBAC\Permission;
+use GepengPHP\LaravelRBAC\Exceptions\RBACException;
 
 class MenuController extends Controller
 {
@@ -65,12 +66,18 @@ class MenuController extends Controller
     public function destory(int $id)
     {
         $menu = Menu::find($id);
-        if (!empty($menu)) {
-            DB::transaction(function () use ($menu) {
-                $menu->delete();
-                $menu->roles()->detach();
-            });
+        if (empty($menu)) {
+            return response()->RBACSuccess();
         }
+
+        $count = Menu::where('parent_id', $id)->count();
+        if ($count > 0) {
+            throw new RBACException('存在子菜单，不能删除', 400);
+        }
+        DB::transaction(function () use ($menu) {
+            $menu->delete();
+            $menu->roles()->detach();
+        });
         return response()->RBACSuccess();
     }
 
