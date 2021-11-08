@@ -40,7 +40,21 @@ class OperationLog
     {
         return config('laravel-rbac.operation_log.enable')
             && !$this->inExceptArray($request)
+            && $this->inAllowedMethods($request->method())
             && Auth::user();
+    }
+
+    private function inAllowedMethods($method)
+    {
+        $allowedMethods = collect(config('admin.operation_log.allowed_methods'))->filter();
+
+        if ($allowedMethods->isEmpty()) {
+            return true;
+        }
+
+        return $allowedMethods->map(function ($method) {
+            return strtoupper($method);
+        })->contains($method);
     }
 
     private function inExceptArray($request)

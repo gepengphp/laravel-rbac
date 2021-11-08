@@ -59,7 +59,7 @@ return [
 
         /*
          |--------------------------------------------------------------------------
-         | 是否记录接口访问行为日志
+         | 不需要记录日志的 uri
          | All method to path like: admin/auth/logs
          | or specific method to path like: get:admin/auth/logs
          |--------------------------------------------------------------------------
@@ -69,5 +69,13 @@ return [
             'api/auth-menu',
             'api/users/search'
         ],
+
+        /*
+         |--------------------------------------------------------------------------
+         | 允许记录日志的方法
+         | 默认选项：'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'
+         |--------------------------------------------------------------------------
+         */
+        'allowed_methods' => ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'],
     ],
 ];
