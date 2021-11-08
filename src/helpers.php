@@ -9,7 +9,7 @@ if (!function_exists('rbac_menu_create')) {
         }
 
         foreach ($tree as $branch) {
-            if (!in_array($branch['permission'], $permissionSlugs)) {
+            if (!empty($branch['permission']) && !in_array($branch['permission'], $permissionSlugs)) {
                 continue;
             }
 

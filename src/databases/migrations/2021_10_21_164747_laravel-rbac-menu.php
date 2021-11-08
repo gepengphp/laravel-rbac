@@ -20,7 +20,7 @@ class LaravelRbacMenu extends Migration
             $table->string('title', 50)->nullable(false)->common('标题');
             $table->string('icon', 50)->nullable(false)->common('图标');
             $table->string('uri', 50)->nullable(true)->common('路径');
-            $table->string('permission', 255)->nullable(true)->common('权限');
+            $table->string('permission_slug', 255)->nullable(true)->common('权限标识');
             $table->timestamps();
         });
     }

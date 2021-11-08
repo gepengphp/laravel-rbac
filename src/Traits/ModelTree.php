@@ -36,12 +36,15 @@ trait ModelTree
 
         foreach ($tree as $i => $branch) {
             $node = static::find($branch['id']);
+            if (empty($node)) {
+                continue;
+            }
 
             $node->{$node->getParentColumn()} = $parentId;
             $node->{$node->getOrderColumn()} = $i + 1;
             $node->save();
 
-            if (isset($branch['children'])) {
+            if (!empty($branch['children'])) {
                 self::seveOrder($branch['children'], $branch['id']);
             }
         }

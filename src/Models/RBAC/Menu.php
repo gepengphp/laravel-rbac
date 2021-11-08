@@ -22,12 +22,12 @@ class Menu extends Model
     }
 
     protected $fillable = [
-        'parent_id', 'order', 'title', 'icon', 'uri', 'permission',
+        'parent_id', 'order', 'title', 'icon', 'uri', 'permission_slug',
     ];
 
     public function permission()
     {
-        return $this->hasOne(Permission::class, 'slug', 'permission');
+        return $this->hasOne(Permission::class, 'slug', 'permission_slug');
     }
 
     public function permissible()
@@ -42,6 +42,11 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id', 'id')->with('children');
+        return $this->hasMany(self::class, 'parent_id', 'id')->orderBy('order', 'ASC')->with('children');
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(self::class, 'id', 'parent_id');
     }
 }

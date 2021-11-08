@@ -14,7 +14,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        \DB::connection()->enableQueryLog();
         $pager = User::with('roles')->with('permissions')
             ->filter($request->filled('filter.keyword'), 'name', 'LIKE', "%{$request->input('filter.keyword')}%")
             ->filter($request->filled('filter.department_id'), 'department_id', $request->input('filter.department_id'))
@@ -72,5 +71,11 @@ class UserController extends Controller
             });
         }
         return response()->RBACSuccess();
+    }
+
+    public function search()
+    {
+        $users = User::search();
+        return response()->RBACSuccess(\compact('users'));
     }
 }

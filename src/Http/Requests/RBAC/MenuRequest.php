@@ -24,14 +24,14 @@ class MenuRequest extends BaseRequest
     public function rules()
     {
         return [
-            'parent_id'  => 'required|exits-or-zero:rbac_menu,id',
-            'title'      => 'required|max:50',
-            'icon'       => 'required|max:50',
-            'uri'        => 'max:50',
-            'order'      => 'integer|numeric|min:-99999|max:99999',
-            'permission' => 'exists:rbac_permissions,slug',
-            'role_ids'   => 'array',
-            'role_ids.*' => 'numeric|exists:rbac_roles,id',
+            'parent_id'       => 'required|exits-or-zero:rbac_menu,id',
+            'title'           => 'required|max:50',
+            'icon'            => 'required|max:50',
+            'uri'             => 'max:50',
+            'order'           => 'integer|numeric|min:-99999|max:99999',
+            'permission_slug' => 'exists:rbac_permissions,slug',
+            'role_ids'        => 'array',
+            'role_ids.*'      => 'numeric|exists:rbac_roles,id',
         ];
     }
 }

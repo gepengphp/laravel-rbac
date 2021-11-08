@@ -10,6 +10,7 @@ Route::group(
         'middleware' => [
             $authMiddle,
             'rbac_auth.api',
+            'rbac.log',
         ],
     ], 
     function () {
@@ -38,11 +39,12 @@ Route::group(
 
         // 用户
         Route::group(['prefix' => 'users'], function () {
-            Route::post  ('page', 'UserController@index');
-            Route::post  ('',     'UserController@store');
-            Route::get   ('{id}', 'UserController@info')->where(['id' => '\d+']);
-            Route::put   ('{id}', 'UserController@save')->where(['id' => '\d+']);
-            Route::delete('{id}', 'UserController@destory')->where(['id' => '\d+']);
+            Route::post  ('page',   'UserController@index');
+            Route::post  ('',       'UserController@store');
+            Route::get   ('{id}',   'UserController@info')->where(['id' => '\d+']);
+            Route::put   ('{id}',   'UserController@save')->where(['id' => '\d+']);
+            Route::delete('{id}',   'UserController@destory')->where(['id' => '\d+']);
+            Route::post  ('search', 'UserController@search');
         });
 
         // 菜单

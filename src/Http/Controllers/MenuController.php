@@ -16,7 +16,7 @@ class MenuController extends Controller
 {
     public function tree()
     {
-        $tree = Menu::with('children')->where('parent_id', 0)->orderBy('order')->get();
+        $tree = Menu::with('children')->where('parent_id', 0)->orderBy('order', 'ASC')->get();
         return response()->RBACSuccess(\compact('tree'));
     }
 
@@ -34,7 +34,7 @@ class MenuController extends Controller
 
     public function info(int $id)
     {
-        $menu = Menu::with('roles')->with('permission')->findOrFail($id);
+        $menu = Menu::with('parent')->with('roles')->with('permission')->findOrFail($id);
         return response()->RBACSuccess(\compact('menu'));
     }
 

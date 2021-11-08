@@ -37,6 +37,7 @@ class LaravelRBACServiceProvider extends ServiceProvider
 
         // register middleware
         $this->addMiddlewareAlias('rbac_auth.api', \GepengPHP\LaravelRBAC\Http\Middleware\RBACAuth::class);
+        $this->addMiddlewareAlias('rbac.log', \GepengPHP\LaravelRBAC\Http\Middleware\OperationLog::class);
 
         $this->macroResponse();
         $this->validatorExtends();
