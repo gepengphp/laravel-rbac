@@ -93,6 +93,20 @@ class LaravelRBACServiceProvider extends ServiceProvider
     private function validatorExtends()
     {
         Validator::extend(
+            'EmptyStringOrExists',
+            function ($attribute, $value, $parameters, $validator) {
+                if ('' === $value || null === $value) {
+                    return true;
+                }
+                $validator = Validator::make(
+                    [$attribute => $value],
+                    [$attribute => 'exists:' . $parameters[0] . ',' . $parameters[1]]
+                );
+                return !$validator->fails();
+            }
+        );
+
+        Validator::extend(
             'ExitsOrZero',
             function ($attribute, $value, $parameters, $validator) {
                 if (0 === $value) {
