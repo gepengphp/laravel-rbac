@@ -83,13 +83,15 @@ class MenuController extends Controller
 
     public function authMenu()
     {
-        $tree = Menu::with('children')->where('parent_id', 0)->orderBy('order')->get();
-        
-        $user        = User::with('roles', 'permissions')->find(Auth::id());
-        $roles       = Role::with('permissions')->whereIn('id', $user->roles()->pluck('id'))->get();
-        $permissions = $roles->pluck('permissions')->flatten()->merge($user->permissions);
+        $tree = Menu::with('children')->with('roles')->where('parent_id', 0)->orderBy('order')->get();
 
-        $menu = \rbac_menu_create($tree->toArray(), $permissions->pluck('slug')->toArray());
+        $user  = User::with('roles', 'permissions')->find(Auth::id());
+        $roles = Role::with('permissions')->whereIn('id', $user->roles()->pluck('id'))->get();
+
+        $menu = (new \GepengPHP\LaravelRBAC\Auth\HasPermission($tree->toArray()))
+            ->setRoles($roles->toArray())
+            ->setPermissions($user->permissions->toArray())
+            ->createMenu();
 
         return response()->RBACSuccess(\compact('menu'));
     }

@@ -4,6 +4,7 @@ namespace GepengPHP\LaravelRBAC\Models\RBAC;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 use GepengPHP\LaravelRBAC\Models\RBAC\Role;
 use GepengPHP\LaravelRBAC\Models\RBAC\Menu;
 
@@ -43,6 +44,28 @@ class Permission extends Model
     public function getHttpMethodAttribute(?string $httpMethod): array
     {
         return $httpMethod ? \explode(',', $httpMethod) : [];
+    }
+
+    /**
+     * 按需进行条件筛选
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  bool   $bool
+     * @param  array  $parameters
+     * @return void
+     */
+    public function scopeFilter(Builder $query, bool $bool, ...$parameters)
+    {
+        if ('keyword' === ($parameters[0] ?? '')) {
+            $query->where(function (Builder $query) use ($parameters) {
+                $query->where('name', $parameters[1], $parameters[2])
+                    ->orWhere('slug', $parameters[1], $parameters[2])
+                    ->orWhere('http_path', $parameters[1], $parameters[2]);
+            });
+            return;
+        }
+
+        $bool && $query->where(...$parameters);
     }
 
     public function shouldPassThrough(\Illuminate\Http\Request $request): bool

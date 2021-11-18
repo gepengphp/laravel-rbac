@@ -63,6 +63,9 @@ class UserController extends Controller
     public function destory(int $id)
     {
         $user = User::find($id);
+        if ($user->name === config('laravel-rbac.default_user_name')) {
+            throw new RBACException('默认管理员不能删除');
+        }
         if (!empty($user)) {
             DB::transaction(function () use ($user) {
                 $user->delete();

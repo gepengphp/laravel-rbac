@@ -42,7 +42,7 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id', 'id')->orderBy('order', 'ASC')->with('children');
+        return $this->hasMany(self::class, 'parent_id', 'id')->orderBy('order', 'ASC')->with('children')->with('roles');
     }
 
     public function parent()

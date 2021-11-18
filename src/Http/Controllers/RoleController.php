@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use GepengPHP\LaravelRBAC\Http\Requests\RBAC\RoleRequest;
 use GepengPHP\LaravelRBAC\Models\RBAC\Role;
 use GepengPHP\LaravelRBAC\Models\RBAC\RolePermission;
+use GepengPHP\LaravelRBAC\Exceptions\RBACException;
 use Carbon\Carbon;
 
 class RoleController extends Controller
@@ -55,6 +56,9 @@ class RoleController extends Controller
     public function destory(int $id)
     {
         $role = Role::find($id);
+        if ($role->role === config('laravel-rbac.default_role_name')) {
+            throw new RBACException('默认管理员角色不能删除');
+        }
         if (!empty($role)) {
             DB::transaction(function () use ($role) {
                 $role->delete();

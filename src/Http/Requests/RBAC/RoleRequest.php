@@ -47,7 +47,6 @@ class RoleRequest extends BaseRequest
     {
         return [
             // todo bug, 返回消息内容为 “The given data was invalid.”，不是设置的 message
-            'name.required' => 'test',
             'permission_ids.array' => '权限设置错误',
             'permission_ids.*.exists' => '权限不存在',
         ];

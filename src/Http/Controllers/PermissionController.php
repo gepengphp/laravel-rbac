@@ -18,7 +18,8 @@ class PermissionController extends Controller
 
     public function index(Request $request)
     {
-        $pager = Permission::paginate($request->post('per_page', 10));
+        $pager = Permission::filter($request->filled('filter.keyword'), 'keyword', 'LIKE', "%{$request->input('filter.keyword')}%")
+            ->paginate($request->post('per_page', 10));
         return response()->RBACSuccess($pager->toArray());
     }
 
